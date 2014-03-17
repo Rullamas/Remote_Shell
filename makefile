@@ -12,19 +12,19 @@ LINK           = gcc -o
 REMOVE         = rm -f
 MEMCHECK       = valgrind --leak-check=full
 
-client : client.o $(BASE_OBJECTS)
-	$(LINK) client client.o $(BASE_OBJECTS)
+client : client.o 
+	$(LINK) client client.o 
 
-server : server.o $(BASE_OBJECTS)
-	$(LINK) server server.o $(BASE_OBJECTS)
+server : server.o 
+	$(LINK) server server.o 
 
-client.o : client.c #$(HEADERS)
+client.o : client.c 
 	$(COMPILE) client.c
 
-server.o : server.c #$(HEADERS)
+server.o : server.c 
 	$(COMPILE) server.c
 
-$(BASE_OBJECTS) : $(BASE_SOURCES) #$(HEADERS)
+$(BASE_OBJECTS) : $(BASE_SOURCES)
 	$(COMPILE) $(BASE_SOURCES)
 
 clean :
