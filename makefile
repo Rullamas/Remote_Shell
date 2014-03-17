@@ -1,31 +1,31 @@
 #------------------------------------------------------------------------------
 #  Makefile for CMPE 150 Project
 #
-#  make                     makes Client and Server
+#  make                     makes client and server
 #------------------------------------------------------------------------------
 
-BASE_SOURCES   = Client.c Server.c
-BASE_OBJECTS   = Client.o Server.o
-HEADERS        = Client.h Server.h
+BASE_SOURCES   = client.c server.c
+BASE_OBJECTS   = client.o server.o
+#HEADERS        = client.h server.h
 COMPILE        = gcc -c -std=c99 -Wall
 LINK           = gcc -o
 REMOVE         = rm -f
 MEMCHECK       = valgrind --leak-check=full
 
-Client : Client.o $(BASE_OBJECTS)
-	$(LINK) Client Client.o $(BASE_OBJECTS)
+client : client.o $(BASE_OBJECTS)
+	$(LINK) client client.o $(BASE_OBJECTS)
 
-Server : Server.o $(BASE_OBJECTS)
-	$(LINK) Server Server.o $(BASE_OBJECTS)
+server : server.o $(BASE_OBJECTS)
+	$(LINK) server server.o $(BASE_OBJECTS)
 
-Client.o : Client.c $(HEADERS)
-	$(COMPILE) Client.c
+client.o : client.c #$(HEADERS)
+	$(COMPILE) client.c
 
-Server.o : Server.c $(HEADERS)
-	$(COMPILE) Server.c
+server.o : server.c #$(HEADERS)
+	$(COMPILE) server.c
 
-$(BASE_OBJECTS) : $(BASE_SOURCES) $(HEADERS)
+$(BASE_OBJECTS) : $(BASE_SOURCES) #$(HEADERS)
 	$(COMPILE) $(BASE_SOURCES)
 
 clean :
-	$(REMOVE) Client Server Client.o Server.o $(BASE_OBJECTS)
+	$(REMOVE) client server client.o server.o $(BASE_OBJECTS)
