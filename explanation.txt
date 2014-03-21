@@ -1,0 +1,30 @@
+CMPE 150 Project
+================
+
+Winter '14
+Brandon Rullamas, brullama@ucsc.edu
+Erik Swedberg, eswedber@ucsc.edu
+
+ EXPLANATION:
+   This project is a remote shell application using C which connects to a
+   server running on a remote host and then accesses its shell and commands.
+   To accomplish this, the project utilizes the Socket API. This is used to
+   set up a TCP connection as the Socket API has several functions that allow
+   for the connection to be set up such as socket(), bind(), listen(), connect(),
+   and accept(), all of which are nearly self explanatory and needed for the
+   three way handshake procedure that is needed to establish a TCP connection
+   between the two remote hosts. This is utilized through a client server
+   architecture meaning that the client (client.c) begins the communication
+   and the server (server.c) follows up to establish the connection.
+  
+   The basis of this connection establishment revolves around the three way
+   handshake of TCP. To explain, the "three way handshake" is the process of
+   transmitting three messages to negotiate and start a TCP session between
+   two hosts. This allows the two hosts to negotiate parameters before transmitting
+   any data. Using a three way handshake procedure also allows for the two
+   hosts to initiate and negotiate separate socket connections at the same time,
+   which is a requirement of this project. To complete the handshake process,
+   TCP does this using the Socket API functions. First, Host A (or the client)
+   sends a SYN packet to Host B (the server). Host B receives the SYN and
+   replies with a SYN-ACK. Host A receives the SYN-ACK sends an ACK in return.
+   Once Host B receives the ACK, the TCP socket connection is established.

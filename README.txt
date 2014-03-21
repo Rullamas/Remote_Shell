@@ -29,14 +29,17 @@ Erik Swedberg, eswedber@ucsc.edu
 		 
    
    COMPILING:
-      To compile the project, use the command 'make'. This will make both the
+      To compile the project, use the command "make". This will make both the
       client executable and server executable.
+      
+      To compile individually, type "make server" or "make client"
 	  
    
    USAGE:
-      Proper usage for the client executable is "./client PORT IPADDRESS". An
-      example of this is "./client 1234 127.0.0.1". Proper usage for the server
-      executable is "./server PORT". An example of this is "./server 1234".
+      Proper usage for the client executable is "./client PORT IPADDRESS". 
+      Proper usage for the server executable is "./server PORT". 
+      
+      An example of these is "./server 1234" and "./client 1234 128.114.104.230".
 	  
 	  
    RUNNING:
@@ -46,27 +49,3 @@ Erik Swedberg, eswedber@ucsc.edu
       inputting an allowed command (date, ls, pwd, shutdown), the client will
       send the server the commands. Once the server processes the commands, the
       client will return the output of the server.
-	  
-   EXPLANATION:
-      This project is a remote shell application using C which connects to a
-	  server running on a remote host and then accesses its shell and commands.
-	  To accomplish this, the project utilizes the Socket API. This is used to
-	  set up a TCP connection as the Socket API has several functions that allow
-	  for the connection to be set up such as socket(), bind(), listen(), connect(),
-	  and accept(), all of which are nearly self explanatory and needed for the
-	  three way handshake procedure that is needed to establish a TCP connection
-	  between the two remote hosts. This is utilized through a client server
-	  architecture meaning that the client (client.c) begins the communication
-	  and the server (server.c) follows up to establish the connection.
-	  
-	  The basis of this connection establishment revolves around the three way
-	  handshake of TCP. To explain, the "three way handshake" is the process of
-	  transmitting three messages to negotiate and start a TCP session between
-	  two hosts. This allows the two hosts to negotiate parameters before transmitting
-	  any data. Using a three way handshake procedure also allows for the two
-	  hosts to initiate and negotiate separate socket connections at the same time,
-	  which is a requirement of this project. To complete the handshake process,
-	  TCP does this using the Socket API functions. First, Host A (or the client)
-	  sends a SYN packet to Host B (the server). Host B receives the SYN and
-	  replies with a SYN-ACK. Host A receives the SYN-ACK sends an ACK in return.
-	  Once Host B receives the ACK, the TCP socket connection is established.

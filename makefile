@@ -1,7 +1,8 @@
 #------------------------------------------------------------------------------
 #  Makefile for CMPE 150 Project
 #
-#  make                     makes client and server
+#  make client              makes client
+#  make server              makes server
 #------------------------------------------------------------------------------
 
 BASE_SOURCES   = client.c server.c
@@ -17,12 +18,6 @@ client : client.o
 
 server : server.o 
 	$(LINK) server server.o 
-
-client.o : client.c 
-	$(COMPILE) client.c
-
-server.o : server.c 
-	$(COMPILE) server.c
 
 $(BASE_OBJECTS) : $(BASE_SOURCES)
 	$(COMPILE) $(BASE_SOURCES)
