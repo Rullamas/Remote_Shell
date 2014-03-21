@@ -92,13 +92,13 @@ int main(int argc, char * argv[])
 		if (strcmp("ls", buffer))
 		{
 			system("ls > n");
-		} else if (strcmp("date", buffer)
+		} else if (strcmp("date", buffer))
 		{
 			system("date > n");
-		} else if (strcmp("pwd", buffer)
+		} else if (strcmp("pwd", buffer))
 		{
 			system("pwd > n");
-		} else if (strcmp("shutdown", buffer)
+		} else if (strcmp("shutdown", buffer))
 		{
 			system("shutdown > n");
 		} else
