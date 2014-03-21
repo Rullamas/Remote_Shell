@@ -40,6 +40,8 @@ int main(int argc, char * argv[])
 	struct sockaddr_in serv_addr, cli_addr;
 	int n;
 	char line[MAX_LEN];
+	int badpacket = 0;
+	int endofsession = 0;
 
 	if (argc < 2)
 	{
@@ -81,45 +83,81 @@ int main(int argc, char * argv[])
 		}
 
 		bzero(buffer,256);
+		
+		//every new client starts with new session flag
+		endofsession = 0;
+		while(!endofsession){
+			n = read(newsockfd,buffer,255);
+			
+			
+			if (n < 0)
+			{
+				error("server.c error: could not read from socket.");
+			}
 
-		n = read(newsockfd,buffer,255);
+			//assume packet will be good
+			badpacket = 0;
+			if (strcmp("ls\n", buffer) == 0)
+			{
+				system("ls > n");
+				printf("did ls\n");
+			} else if (strcmp("date\n", buffer) == 0)
+			{
+				system("date > n");
+				printf("did date\n");
+			} else if (strcmp("pwd\n", buffer) == 0)
+			{
+				system("pwd > n");
+				printf("did pwd\n");
+			} else if (strcmp("shutdown\n", buffer) == 0)
+			{
+				printf("Shutdown, end session\n");
+				n = write(newsockfd,"Shutting down",13);
+				endofsession = 1;
+				//return 0;
+			} else
+			{
+				n = write(newsockfd,"Invalid Command",15);
+				badpacket = 1;
+				//error("server.c error: invalid command.");
+			}
+			
+			//having this message uncommented breaks While loop for some reason
+			//n = write(newsockfd,"I got your command",18);
+			
+			FILE *out = fopen("n", "r");
+			
+			if(!badpacket){
+				if(out != NULL){
+					while (fgets(line, MAX_LEN, out) != NULL)
+					{
+						//printf("printing:  %s", line);
+						
+						//n = write(newsockfd, line, (int)strlen(line));
+						printf("linesize: %d\n", (int)strlen(line));
+						//printf("sent: %d\n", n);
+						strcat(buffer, &line);
+						printf("linesize: %d\n", (int)strlen(line));
+					}
+					fclose(out);
+					n = write(newsockfd, line, (int)strlen(line));
+				}
+			}
+			if(!endofsession && !badpacket) system("rm n");
+			
+			bzero(buffer,256);
 
-		if (n < 0)
-		{
-			error("server.c error: could not read from socket.");
-		}
-
-		if (strcmp("ls", buffer))
-		{
-			system("ls > n");
-		} else if (strcmp("date", buffer))
-		{
-			system("date > n");
-		} else if (strcmp("pwd", buffer))
-		{
-			system("pwd > n");
-		} else if (strcmp("shutdown", buffer))
-		{
-			system("shutdown > n");
-		} else
-		{
-			error("server.c error: invalid command.");
+			if (n < 0)
+			{
+				error("server.c error: could not write to socket.");
+			}
+		
+			
 		}
 		
-		FILE *out = fopen("n", "r");
-		while ( fgets(line, MAX_LEN, out) != NULL)
-		{
-			fprintf(buffer, "%s\n", out);
-		}
-		
-		printf("%s\n", buffer);
-		
-		//n = write(newsockfd,"I got your command",18);
-
-		if (n < 0)
-		{
-			error("server.c error: could not write to socket.");
-		}
-		return 0;
+		printf("Ended session with Client\n");
 	}
+	
+	
+	return 0;
 }

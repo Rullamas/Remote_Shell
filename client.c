@@ -39,6 +39,7 @@ int main(int argc, char *argv[])
 	struct hostent *server;
 
 	char buffer[256];
+	char command[256];
 
 	if (argc < 3)
 	{
@@ -69,25 +70,46 @@ int main(int argc, char *argv[])
 
 	serv_addr.sin_port = htons(portno);
 
+	
 	if (connect(sockfd,&serv_addr,sizeof(serv_addr)) < 0)
 	{
 		error("client.c error: could not connect.");
 	}
-	printf("Please enter a command: ");
-	bzero(buffer,256);
-	fgets(buffer,255,stdin);
-	n = write(sockfd,buffer,strlen(buffer));
-	if (n < 0)
-	{
-		error("client.c error: could not write to socket.");
+	while(1){
+		printf("Please enter a command: ");
+		bzero(command,256);
+		fgets(command,255,stdin);
+		n = write(sockfd,command,strlen(command));
+		if (n < 0)
+		{
+			error("client.c error: could not write to socket.");
+		}
+		
+		
+		if(strcmp(command,"ls\n") == 0){
+			n = 1;
+			while(n > 0){
+				bzero(buffer,256);
+				printf(".go");
+				n = read(sockfd, buffer, 255);
+				printf("%s\n",buffer);
+			}
+		}else{
+			bzero(buffer,256);
+			printf("-");
+			n = read(sockfd,buffer,255);
+		}
+		printf(",");
+		
+		if (n < 0)
+		{
+			error("client.c error: could not read socket.");
+		}
+		printf("%s\n",buffer);
+		if(strcmp(buffer,"Shutting down") == 0){
+			return 0;
+		}
 	}
-	bzero(buffer,256);
-	n = read(sockfd,buffer,255);
-	if (n < 0)
-	{
-		error("client.c error: could not read socket.");
-	}
-	printf("%s\n",buffer);
 
 	return 0;
 }
