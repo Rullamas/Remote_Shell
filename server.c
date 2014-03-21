@@ -24,19 +24,22 @@
 #include <string.h>
 #include <time.h>
 
+#define MAX_LEN 255
+
 void error(char *msg)
 {
 	perror(msg);
 	exit(1);
 }
 
-int main(int argc, char *argv[])
+int main(int argc, char * argv[])
 {
 
 	int sockfd, newsockfd, portno, clilen;
 	char buffer[256];
 	struct sockaddr_in serv_addr, cli_addr;
 	int n;
+	char line[MAX_LEN];
 
 	if (argc < 2)
 	{
@@ -66,30 +69,57 @@ int main(int argc, char *argv[])
 
 	listen(sockfd,5);
 	clilen = sizeof(cli_addr);
-
-	newsockfd = accept(sockfd,(struct sockaddr *) &cli_addr, &clilen);
-
-	if (newsockfd < 0)
+	
+	while(1)
 	{
-		error("server.c error: socket acception error.");
+
+		newsockfd = accept(sockfd,(struct sockaddr *) &cli_addr, &clilen);
+
+		if (newsockfd < 0)
+		{
+			error("server.c error: socket acception error.");
+		}
+
+		bzero(buffer,256);
+
+		n = read(newsockfd,buffer,255);
+
+		if (n < 0)
+		{
+			error("server.c error: could not read from socket.");
+		}
+
+		if (strcmp("ls", buffer)
+		{
+			system("ls > n");
+		} else if (strcmp("date", buffer)
+		{
+			system("date > n");
+		} else if (strcmp("pwd", buffer)
+		{
+			system("pwd > n");
+		} else if (strcmp("shutdown", buffer)
+		{
+			system("shutdown > n");
+		} else
+		{
+			error("server.c error: invalid command.");
+		}
+		
+		FILE *out = fopen("n", "r");
+		while ( fgets(line, MAX_LEN, out) != NULL)
+		{
+			fprintf(buffer, "%s\n", out);
+		}
+		
+		printf("%s\n", buffer);
+		
+		//n = write(newsockfd,"I got your command",18);
+
+		if (n < 0)
+		{
+			error("server.c error: could not write to socket.");
+		}
+		return 0;
 	}
-
-	bzero(buffer,256);
-
-	n = read(newsockfd,buffer,255);
-
-	if (n < 0)
-	{
-		error("server.c error: could not read from socket.");
-	}
-
-	printf("Here is the command: %s\n",buffer);
-
-	n = write(newsockfd,"I got your command",18);
-
-	if (n < 0)
-	{
-		error("server.c error: could not write to socket.");
-	}
-	return 0;
 }
