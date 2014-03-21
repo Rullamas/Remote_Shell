@@ -89,7 +89,7 @@ int main(int argc, char * argv[])
 			error("server.c error: could not read from socket.");
 		}
 
-		if (strcmp("ls", buffer)
+		if (strcmp("ls", buffer))
 		{
 			system("ls > n");
 		} else if (strcmp("date", buffer)
