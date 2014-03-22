@@ -28,3 +28,7 @@ Erik Swedberg, eswedber@ucsc.edu
    sends a SYN packet to Host B (the server). Host B receives the SYN and
    replies with a SYN-ACK. Host A receives the SYN-ACK sends an ACK in return.
    Once Host B receives the ACK, the TCP socket connection is established.
+   
+   In this lab, we began by researching the supplied links in the project
+   specification.  Our code base began as described in the TCP/IP Programming 
+   in C video by Prof Vinod Pillai
